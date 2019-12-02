@@ -1,0 +1,112 @@
+
+achieveFrom(g2,g1) :- achieve(g1).
+achieveFrom(g3,g1) v -patientActivity(leavingHome):- achieve(g1).
+patientActivity(leavingHome) :- achieveFrom(g3,g1). 
+
+performFrom(t1,g2) v performFrom(t2,g2) v achieveFrom(g4,g2) v performFrom(t3,g2):- achieve(g2).
+distanceTV(near) :- performFrom(t2,g2).
+-patientActivity(sleeping) :- performFrom(t2,g2).
+distancePhone(near) :- achieveFrom(g4,g2).
+noiseLevel(low) :- performFrom(t3,g2).
+
+performFrom(t6,g4) v performFrom(t7,g4) v performFrom(t8,g4) v performFrom(t9,g4):- achieve(g4).
+noiseLevel(low) :- performFrom(t7,g4).
+hearingCondition(normal) :- performFrom(t7,g4).
+noiseLevel(low) :- performFrom(t8,g4).
+hearingCondition(normal) :- performFrom(t8,g4).
+eyeCondition(normal) :- performFrom(t9,g4).
+
+performFrom(t4,g3) v performFrom(t5,g3):- achieve(g3).
+distanceTV(near) :- performFrom(t4,g3).
+-patientActivity(sleeping) :- performFrom(t4,g3).
+noiseLevel(low) :- performFrom(t5,g3).
+
+
+achieve(G) :- achieveFrom(G,_).
+perform(T) :- performFrom(T,_).
+
+achieve(g1).
+
+%%%%%%context instance
+%%patient activity
+
+patientActivity(sleeping).
+-patientActivity(leavingHome).
+-patientActivity(watchingTV).
+-patientActivity(eatingMeal).
+-patientActivity(talkingOnPhone).
+-patientActivity(picksWrongMedicine).
+-patientActivity(picksRightMedicine).
+-patientActivity(takingMedicine).
+%patientActivity(busy).
+-patientActivity(idle).
+
+patientActivity(all) :- patientActivity(busy).
+patientActivity(all) :- patientActivity(idle).
+
+patientActivity(busy) :- patientActivity(sleeping).
+patientActivity(busy) :- patientActivity(leavingHome).
+patientActivity(busy) :- patientActivity(watchingTV).
+patientActivity(busy) :- patientActivity(eatingMeal).
+patientActivity(busy) :- patientActivity(talkingOnPhone).
+patientActivity(busy) :- patientActivity(takingMedicine).
+
+patientActivity(takingMedicine) :- patientActivity(picksWrongMedicine).
+patientActivity(takingMedicine) :- patientActivity(picksRightMedicine).
+
+%%body condition
+
+bodyCondition(normal).
+-bodyCondition(weak).
+-bodyCondition(sick).
+-bodyCondition(tired).
+
+bodyCondition(all) :- bodyCondition(normal).
+bodyCondition(all) :- bodyCondition(weak).
+
+bodyCondition(weak) :- bodyCondition(sick).
+bodyCondition(weak) :- bodyCondition(tired).
+
+%%patient location
+
+-patientLocation(outdoors).
+%patientLocation(home).
+-patientLocation(kitchen).
+-patientLocation(backyardLawn).
+-patientLocation(toilet).
+patientLocation(livingRoom).
+
+patientLocation(home) :- patientLocation(kitchen).
+patientLocation(home) :- patientLocation(backyardLawn).
+patientLocation(home) :- patientLocation(toilet).
+patientLocation(home) :- patientLocation(livingRoom).
+
+patientLocation(all) :- patientLocation(outdoors).
+patientLocation(all) :- patientLocation(home).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

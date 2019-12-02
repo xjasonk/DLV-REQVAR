@@ -1,0 +1,252 @@
+%translation for personal medication assistant-figure 1
+%softgoals
+softgoal(sg1).
+softgoal(sg2).
+softgoal(sg3).
+softgoal(sg4).
+softgoal(sg5).
+softgoal(sg6).
+
+softgoal(sg11).
+softgoal(sg12).
+softgoal(sg13).
+softgoal(sg14).
+softgoal(sg15).
+softgoal(sg16).
+
+softgoal(sg21).
+softgoal(sg22).
+softgoal(sg23).
+softgoal(sg24).
+softgoal(sg25).
+softgoal(sg26).
+
+%contribution links
+contrib(t1,sg1,pos).
+contrib(t1,sg3,pos).
+contrib(t1,sg4,neg).
+
+contrib(g3,sg1,neg).
+contrib(g3,sg4,pos).
+
+contrib(t5,sg6,neg).
+
+contrib(t6,sg6,pos).
+
+contrib(t7,sg1,pos).
+contrib(t7,sg6,neg).
+contrib(t7,sg5,pos).
+
+contrib(t8,sg6,pos).
+contrib(t8,sg1,neg).
+
+contrib(t9,sg2,pos).
+%%%%
+contrib(t11,sg11,pos).
+contrib(t11,sg13,pos).
+contrib(t11,sg14,neg).
+
+contrib(g13,sg11,neg).
+contrib(g13,sg14,pos).
+
+contrib(t15,sg16,neg).
+
+contrib(t16,sg16,pos).
+
+contrib(t17,sg11,pos).
+contrib(t17,sg16,neg).
+contrib(t17,sg15,pos).
+
+contrib(t18,sg16,pos).
+contrib(t18,sg11,neg).
+
+contrib(t19,sg12,pos).
+%%%%
+contrib(t21,sg21,pos).
+contrib(t21,sg23,pos).
+contrib(t21,sg24,neg).
+
+contrib(g23,sg21,neg).
+contrib(g23,sg24,pos).
+
+contrib(t25,sg26,neg).
+
+contrib(t26,sg26,pos).
+
+contrib(t27,sg21,pos).
+contrib(t27,sg26,neg).
+contrib(t27,sg25,pos).
+
+contrib(t28,sg26,pos).
+contrib(t28,sg21,neg).
+
+contrib(t29,sg22,pos).
+
+
+%AND/OR structure
+achieveFrom(g0,g00) :- achieve(g00).
+achieveFrom(g1,g0) :- achieve(g0).
+achieveFrom(g2,g0) :- achieve(g0).
+
+performFrom(t1,g1) v achieveFrom(g3,g1):- achieve(g1).
+performFrom(t2,g3) :- achieve(g3). 
+achieveFrom(g4,g3) :- achieve(g3).
+performFrom(t3,g4) :- achieve(g4).
+performFrom(t4,g4) :- achieve(g4).
+
+achieveFrom(g5,g2) :- achieve(g2).
+achieveFrom(g6,g2) :- achieve(g2). 
+performFrom(t9,g2) :- achieve(g2).
+performFrom(t6,g5) v performFrom(t5,g5) :- achieve(g5).
+performFrom(t7,g6) v performFrom(t8,g6) :- achieve(g6).  
+%%%%
+achieveFrom(g10,g00) :- achieve(g00).
+achieveFrom(g11,g10) :- achieve(g10).
+achieveFrom(g12,g10) :- achieve(g10).
+
+performFrom(t11,g11) v achieveFrom(g13,g11):- achieve(g11).
+performFrom(t12,g13) :- achieve(g13). 
+achieveFrom(g14,g13) :- achieve(g13).
+performFrom(t13,g14) :- achieve(g14).
+performFrom(t14,g14) :- achieve(g14).
+
+achieveFrom(g15,g12) :- achieve(g12).
+achieveFrom(g16,g12) :- achieve(g12). 
+performFrom(t19,g12) :- achieve(g12).
+performFrom(t16,g15) v performFrom(t15,g15) :- achieve(g15).
+performFrom(t17,g16) v performFrom(t18,g16) :- achieve(g16).  
+%%%%
+achieveFrom(g20,g00) :- achieve(g00).
+achieveFrom(g21,g20) :- achieve(g20).
+achieveFrom(g22,g20) :- achieve(g20).
+
+performFrom(t21,g21) v achieveFrom(g23,g21):- achieve(g21).
+performFrom(t22,g23) :- achieve(g23). 
+achieveFrom(g24,g23) :- achieve(g23).
+performFrom(t23,g24) :- achieve(g24).
+performFrom(t24,g24) :- achieve(g24).
+
+achieveFrom(g25,g22) :- achieve(g22).
+achieveFrom(g26,g22) :- achieve(g22). 
+performFrom(t29,g22) :- achieve(g22).
+performFrom(t26,g25) v performFrom(t25,g25) :- achieve(g25).
+performFrom(t27,g26) v performFrom(t28,g26) :- achieve(g26).  
+
+
+achieve(g00).
+
+achieve(G) :- achieveFrom(G,_).
+perform(T) :- performFrom(T,_).
+
+%contextual preferences
+%p1
+priorityHard(t5, 90) :- patientIllness(dementia).
+priorityHard(t7, 90) :- patientIllness(dementia).
+priorityHard(t1, 90) :- patientIllness(dementia).
+%p2
+priorityHard(t1, 30) :- bodyCondition(tired).
+priorityHard(t1, 30) :- bodyCondition(sick).
+%p3
+priorityHard(t1, 40) :- accompanyingPeople(alone), patientActivity(busy).
+%p4
+priorityHard(g3, 80) :- patientLocation(nearDispenser).
+%p5
+priorityHard(g3, 50) :- accompanyingPeople(caregiver).
+priorityHard(g3, 50) :- accompanyingPeople(relatives).
+%p6
+priorityHard(t8, 70) :- weather(good).
+%p7
+prioritySoft(sg1,60) :- patientIllness(all).
+%p8
+prioritySoft(sg6,20) :- patientIllness(all).
+%p9
+prioritySoft(sg5,20) :- patientIllness(all).
+
+
+%contextual preferences
+%p1
+priorityHard(t15, 90) :- patientIllness(dementia).
+priorityHard(t17, 90) :- patientIllness(dementia).
+priorityHard(t11, 90) :- patientIllness(dementia).
+%p2
+priorityHard(t11, 30) :- bodyCondition(tired).
+priorityHard(t11, 30) :- bodyCondition(sick).
+%p3
+priorityHard(t11, 40) :- accompanyingPeople(alone), patientActivity(busy).
+%p4
+priorityHard(g13, 80) :- patientLocation(nearDispenser).
+%p5
+priorityHard(g13, 50) :- accompanyingPeople(caregiver).
+priorityHard(g13, 50) :- accompanyingPeople(relatives).
+%p6
+priorityHard(t18, 70) :- weather(good).
+%p7
+prioritySoft(sg11,60) :- patientIllness(all).
+%p8
+prioritySoft(sg16,20) :- patientIllness(all).
+%p9
+prioritySoft(sg15,20) :- patientIllness(all).
+
+%contextual preferences
+%p1
+priorityHard(t25, 90) :- patientIllness(dementia).
+priorityHard(t27, 90) :- patientIllness(dementia).
+priorityHard(t21, 90) :- patientIllness(dementia).
+%p2
+priorityHard(t21, 30) :- bodyCondition(tired).
+priorityHard(t21, 30) :- bodyCondition(sick).
+%p3
+priorityHard(t21, 40) :- accompanyingPeople(alone), patientActivity(busy).
+%p4
+priorityHard(g23, 80) :- patientLocation(nearDispenser).
+%p5
+priorityHard(g23, 50) :- accompanyingPeople(caregiver).
+priorityHard(g23, 50) :- accompanyingPeople(relatives).
+%p6
+priorityHard(t28, 70) :- weather(good).
+%p7
+prioritySoft(sg21,60) :- patientIllness(all).
+%p8
+prioritySoft(sg26,20) :- patientIllness(all).
+%p9
+prioritySoft(sg25,20) :- patientIllness(all).
+
+
+
+%context instance
+patientIllness(dementia).
+weather(good).
+patientIllness(all). 	%can be written as 
+			%patientIllness(all):- patientIllness(dementia).  
+			%patientIllness(all):- patientIllness(MCI).
+patientLocation(livingRoom).
+%patientLocation(nearDispenser). 
+bodyCondition(tired).
+accompanyingPeople(caregiver).
+patientActivity(busy).
+
+
+hardPriority(T,Priority):- priorityHard(T, Priority), #int(Priority), Priority!=0, perform(T). 
+hardPriority(G,Priority):- priorityHard(G, Priority), #int(Priority), Priority!=0, achieve(G). 
+
+posContribTo(T,S,Priority) :- prioritySoft(S,Priority), Priority!=0, contrib(T,S,pos), perform(T).
+posContribTo(G,S,Priority) :- prioritySoft(S,Priority), Priority!=0, contrib(G,S,pos), achieve(G).
+
+negContribTo(T,S,Priority) :- prioritySoft(S,Priority), Priority!=0, contrib(T,S,neg), perform(T).
+negContribTo(G,S,Priority) :- prioritySoft(S,Priority), Priority!=0, contrib(G,S,neg), achieve(G).
+
+softPriority(S,Priority):- prioritySoft(S,Priority), Priority!=0, contrib(T,S,pos), perform(T).
+softPriority(S,Priority):- prioritySoft(S,Priority), Priority!=0, contrib(G,S,pos), achieve(G).
+
+softPriority(S,Priority):- prioritySoft(S,Priority), Priority!=0, contrib(T,S,neg), perform(T).
+softPriority(S,Priority):- prioritySoft(S,Priority), Priority!=0, contrib(G,S,neg), achieve(G).
+
+%parallel(A,B) :- parallel(B,A).
+%parallel(A,C) :- parallel(A,B), parallel(B,C).
+%sequence(A,C) :- sequence(A,B), sequence(B,C).
+%sequence(A,B) :- achieveFrom(A,C), achieveFrom(B,D), sequence(C,D), not parallel(A,B).
+%sequence(A,B) :- performFrom(A,C), performFrom(B,D), sequence(C,D), not parallel(A,B).
+%sequence(A,B) :- achieveFrom(A,C), performFrom(B,D), sequence(C,D), not parallel(A,B).
+%sequence(A,B) :- performFrom(A,C), achieveFrom(B,D), sequence(C,D), not parallel(A,B).
+
+

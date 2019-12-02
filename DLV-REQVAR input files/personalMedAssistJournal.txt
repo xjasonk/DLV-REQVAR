@@ -1,0 +1,211 @@
+%translation for personal medication assistant-figure 6
+%softgoals
+softgoal(sg1).
+softgoal(sg2).
+softgoal(sg3).
+softgoal(sg4).
+softgoal(sg5).
+softgoal(sg6).
+softgoal(sg7).
+softgoal(sg8).
+softgoal(sg9).
+
+
+%contribution links
+contrib(t6,sg1,pos).
+
+contrib(t6,sg2,pos).
+contrib(g6,sg2,neg) :- distanceDispenser(far).
+contrib(t10,sg2,pos).
+contrib(t12,sg2,neg).
+contrib(t13,sg2,pos).
+
+contrib(t16,sg3,pos).
+
+%contrib(t2,sg4,pos).
+%contrib(t4,sg4,neg).
+
+contrib(t14,sg5,pos).
+
+contrib(t13,sg6,neg).
+contrib(t12,sg6,pos).
+contrib(t14,sg6,neg).
+contrib(t15,sg6,pos).
+
+contrib(g6,sg7,pos).
+
+contrib(t13,sg8,neg).
+contrib(t14,sg8,neg).
+
+contrib(t4,sg9,pos) :- patientLocation(backyardLawn).
+contrib(t2,sg9,neg) :- eyeCondition(weak).
+
+
+%AND/OR structure
+achieveFrom(g1,g0) :- achieve(g0).
+achieveFrom(g2,g0) :- achieve(g0).
+achieveFrom(g3,g0) v -medicineLevel(belowThreshold) :- achieve(g0).
+medicineLevel(belowThreshold) :- achieveFrom(g3,g0). 
+achieveFrom(g4,g0) :- achieve(g0).
+
+achieveFrom(g5,g1) :- achieve(g1).
+performFrom(t5,g1) v -patientActivity(leavingHome):- achieve(g1).
+patientActivity(leavingHome) :- performFrom(t5,g1). 
+
+performFrom(t1,g5) v performFrom(t2,g5) v performFrom(t3,g5) v performFrom(t4,g5):- achieve(g5).
+distanceTV(near) :- performFrom(t2,g5).
+-patientActivity(sleeping) :- performFrom(t2,g5).
+distancePhone(near) :- performFrom(t3,g5).
+noiseLevel(low) :- performFrom(t4,g5).
+
+performFrom(t6,g2) v achieveFrom(g6,g2) v performFrom(t10,g2):- achieve(g2).
+patientLocation(home) :- performFrom(t6,g2).
+
+performFrom(t7,g6) :- achieve(g6).
+achieveFrom(g7,g6) :- achieve(g6).
+
+performFrom(t8,g7) :- achieve(g7).
+performFrom(t9,g7) v -patientActivity(picksWrongMedicine) :- achieve(g7).
+patientActivity(picksWrongMedicine) :-performFrom(t9,g7).
+
+performFrom(t11,g3) :- achieve(g3).
+
+achieveFrom(g8,g4) :- achieve(g4).
+achieveFrom(g9,g4) :- achieve(g4).
+performFrom(t16,g4) :- achieve(g4).
+
+performFrom(t12,g8) v performFrom(t13,g8):- achieve(g8).
+
+performFrom(t14,g9) v performFrom(t15,g9):- achieve(g9).
+
+achieve(g0).
+
+achieve(G) :- achieveFrom(G,_).
+perform(T) :- performFrom(T,_).
+
+%contextual preferences
+%p1
+priorityHard(t6, 4) :- patientIllness(dementia).
+priorityHard(t13, 4) :- patientIllness(dementia).
+priorityHard(t14, 4) :- patientIllness(dementia).
+
+%p2
+priorityHard(t6, 2) :- bodyCondition(tired).
+priorityHard(t6, 2) :- bodyCondition(sick).
+
+%p3
+priorityHard(t6, 4) :- accompanyingPeople(alone), patientActivity(sleeping), bodyCondition(tired).
+priorityHard(t6, 4) :- accompanyingPeople(alone), patientActivity(sleeping), bodyCondition(sick).
+
+%p4
+priorityHard(t6, 2) :- accompanyingPeople(alone), patientActivity(busy).
+
+%p5
+priorityHard(g6, 4) :- distanceDispenser(near).
+
+%p6
+priorityHard(t10, 3) :- accompanyingPeople(caregiver).
+priorityHard(t10, 3) :- accompanyingPeople(relative).
+
+%p7
+priorityHard(t15, 2) :- patientIllness(normal).
+
+%p8
+prioritySoft(sg2,4) :- bodyCondition(sick).
+
+%for trial prioritySoft(sg2,4) :- patientIllness(normal).
+
+%p9
+prioritySoft(sg6,4) :- patientIllness(normal), bodyCondition(normal).
+
+%for test prioritySoft(sg6,4) :- patientIllness(normal).
+
+
+%p10
+prioritySoft(sg7,4) :- patientIllness(normal).
+
+%p11
+prioritySoft(sg1,3) :- patientIllness(all).
+
+%for test prioritySoft(sg1,4) :- patientIllness(normal).
+
+%p12
+prioritySoft(sg6,2) :- patientIllness(all).
+prioritySoft(sg7,2) :- patientIllness(all).
+prioritySoft(sg8,2) :- patientIllness(all).
+
+%p13
+prioritySoft(sg2,1) :- patientIllness(all).
+prioritySoft(sg3,1) :- patientIllness(all).
+prioritySoft(sg4,1) :- patientIllness(all).
+prioritySoft(sg5,1) :- patientIllness(all).
+
+%for test
+%prioritySoft(sg1,1) :- patientIllness(all).
+%prioritySoft(sg6,1) :- patientIllness(all).
+%prioritySoft(sg7,1) :- patientIllness(all).
+%prioritySoft(sg8,1) :- patientIllness(all).
+
+
+
+%context instance
+-patientActivity(leavingHome).
+-patientActivity(picksWrongMedicine).
+patientActivity(busy) :- patientActivity(sleeping).
+patientActivity(sleeping).
+
+bodyCondition(normal).
+
+patientLocation(home) :- patientLocation(backyardLawn).
+patientLocation(home).
+
+-medicineLevel(belowThreshold).
+medicineLevel(aboveThreshold).
+
+distanceDispenser(far).
+
+-noiseLevel(low).
+noiseLevel(high).
+
+eyeCondition(weak).
+
+accompanyingPeople(alone).
+
+patientIllness(all) :- patientIllness(normal).
+patientIllness(all) :- patientIllness(mci).
+patientIllness(all) :- patientIllness(dementia).
+patientIllness(normal).
+
+-distanceTV(near).
+distanceTV(far).
+
+weather(good).
+
+-distancePhone(near).
+distancePhone(far).
+
+%Auxilliary rules
+hardPriority(T,Priority):- priorityHard(T, Priority), #int(Priority), Priority!=0, perform(T). 
+hardPriority(G,Priority):- priorityHard(G, Priority), #int(Priority), Priority!=0, achieve(G). 
+
+posContribTo(T,S,Priority) :- prioritySoft(S,Priority), Priority!=0, contrib(T,S,pos), perform(T).
+posContribTo(G,S,Priority) :- prioritySoft(S,Priority), Priority!=0, contrib(G,S,pos), achieve(G).
+
+negContribTo(T,S,Priority) :- prioritySoft(S,Priority), Priority!=0, contrib(T,S,neg), perform(T).
+negContribTo(G,S,Priority) :- prioritySoft(S,Priority), Priority!=0, contrib(G,S,neg), achieve(G).
+
+softPriority(S,Priority):- prioritySoft(S,Priority), Priority!=0, contrib(T,S,pos), perform(T).
+softPriority(S,Priority):- prioritySoft(S,Priority), Priority!=0, contrib(G,S,pos), achieve(G).
+
+softPriority(S,Priority):- prioritySoft(S,Priority), Priority!=0, contrib(T,S,neg), perform(T).
+softPriority(S,Priority):- prioritySoft(S,Priority), Priority!=0, contrib(G,S,neg), achieve(G).
+
+%parallel(A,B) :- parallel(B,A).
+%parallel(A,C) :- parallel(A,B), parallel(B,C).
+%sequence(A,C) :- sequence(A,B), sequence(B,C).
+%sequence(A,B) :- achieveFrom(A,C), achieveFrom(B,D), sequence(C,D), not parallel(A,B).
+%sequence(A,B) :- performFrom(A,C), performFrom(B,D), sequence(C,D), not parallel(A,B).
+%sequence(A,B) :- achieveFrom(A,C), performFrom(B,D), sequence(C,D), not parallel(A,B).
+%sequence(A,B) :- performFrom(A,C), achieveFrom(B,D), sequence(C,D), not parallel(A,B).
+
+

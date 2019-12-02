@@ -1,0 +1,138 @@
+%dlv.mingw -silent -nofacts -N=10000 -filter=perform input.txt
+achieve(g5) v -weather(hot) :- achieve(g2).
+achieve(g5) v -weather(warm):- achieve(g2).
+weather(hot) v weather(warm):- achieve(g5). %(achieve(g5), weather{hot,warm})
+
+achieve(g6) :- achieve(g2). 
+perform(t9) :- achieve(g2).
+perform(t6) v perform(t5) :- achieve(g5).
+perform(t7) v perform(t8) :- achieve(g6).  
+weather(hot) :- perform(t7).
+patientIllness(dementia) :- perform(t7). %(perform(t7), patientIllness{dementia} ^ weather{hot}) 
+
+softgoal(sg1).
+softgoal(sg6).
+softgoal(sg5).
+softgoal(sg2).
+contrib(t6,sg1,neg).
+contrib(t6,sg6,pos).
+contrib(t5,sg1,pos).
+contrib(t5,sg6,neg).
+contrib(t7,sg1,pos).
+contrib(t7,sg6,neg).
+contrib(t7,sg5,pos).
+contrib(t8,sg6,pos).
+contrib(t8,sg1,neg).
+contrib(t8,sg5,neg).
+contrib(t9,sg2,pos).
+
+
+%contextual preferences
+%priorityHard(t5, 90) :- patientIllness(dementia).
+%priorityHard(t7, 90) :- patientIllness(dementia).
+%priorityHard(t8, 70) :- weather(good).
+%priorityHard(t5, 70) :- weather(good).
+%prioritySoft(sg1,60) :- patientIllness(all).
+%prioritySoft(sg6,20) :- patientIllness(all).
+%prioritySoft(sg5,20) :- patientIllness(all).
+
+%context instance
+-patientIllness(dementia).
+-weather(hot).
+-weather(warm).
+patientIllness(all).
+
+
+hardPriority(T,Priority):- priorityHard(T, Priority), #int(Priority), Priority!=0, perform(T). 
+posContribTo(T,S,Priority) :- prioritySoft(S,Priority), Priority!=0, contrib(T,S,pos), perform(T).
+negContribTo(T,S,Priority) :- prioritySoft(S,Priority), Priority!=0, contrib(T,S,neg), perform(T).
+
+softPriority(S,Priority):- prioritySoft(S,Priority), Priority!=0, contrib(T,S,pos), perform(T).
+softPriority(S,Priority):- prioritySoft(S,Priority), Priority!=0, contrib(T,S,neg), perform(T).
+
+
+%posContribTo(T,S,V) :- prioritySoft(S,Priority), #int(Priority), Priority!=0, #int(V), #int(V1), #count{I: contrib(I,T,S,pos)}=V1, V1!=0, perform(T), V=V1*Priority.
+%negContribTo(T,S,V) :- prioritySoft(S,Priority), #int(Priority), Priority!=0, #int(V), #int(V1), #count{I: contrib(I,T,S,neg)}=V1, V1!=0, perform(T), V=V1*Priority.
+
+
+%%%
+%posContribTo(T,S,V) :- prioritySoft(S,Priority), #int(Priority), Priority!=0, #int(V), #int(V1), #count{I: contrib(I,T,S,pos)}=V1, V1!=0, perform(T), V=V1*Priority.
+%negContribTo(T,S,V) :- prioritySoft(S,Priority), #int(Priority), Priority!=0, #int(V), #int(V1), #count{I: contrib(I,T,S,neg)}=V1, V1!=0, perform(T), V=V1*Priority.
+
+
+%in case of contributions from achieve
+%posContribTo(G,S,V) :- prioritySoft(S,Priority), #int(Priority), Priority!=0, #int(V), #int(V1), #count{I: contrib(I,G,S,pos)}=V1, V1!=0, achieve(G), V=V1*Priority.
+%negContribTo(G,S,V) :- prioritySoft(S,Priority), #int(Priority), Priority!=0, #int(V), #int(V1), #count{I: contrib(I,G,S,neg)}=V1, V1!=0, achieve(G), V=V1*Priority.
+
+%negContribTo(T,S,V) :- prioritySoft(S,Priority), #int(Priority), Priority!=0, #int(V), #int(V1), #count{I: contrib(I,T,S,neg)}=V1, V1!=0, perform(T), achieve(T), V=V1*Priority.
+
+
+
+%contribTo(T,S,V) :- prioritySoft(S,Priority), softgoal(S), Priority!=0, #count{I: contrib(I,T,S,pos)}=V1, V1!=0, perform(T), #int(V), V=V1*Priority. 
+
+%posNegContrib(PosTotal,NegTotal,T) :- #sum{P1 : softgoal(SG,P1), contrib(T,SG,pos)} = PosTotal, #sum{P2 : softgoal(SG,P2), contrib(T,SG,neg)} = NegTotal, perform(T). 
+
+%maxContrib(X) :- #sum{P : softgoal(SG,P), posNegContrib(_,_,T)} = X.
+
+%maxContrib(X) :- #sum{S : posNegContrib(S,Q,T)} = X, perform(T), posNegContrib(P,Q,T).
+
+%maxContrib(X) :- #sum{P : softgoal(SG,P), contrib(T,SG,pos)} = X, posNegContrib(PosTotal,NegTotal,T).
+
+%, totContrib(X,T), #max{Max : totContrib(Max,T)}=M.   
+
+
+%phi(c14).
+%softgoal(sg1,3).
+%softgoal(sg2,1).
+%contrib(g10,sg1,pos).
+%contrib(g10,sg2,pos) :- phi(c14).
+%contrib(g11,sg1,neg).
+%contrib(g11,sg2,pos).
+
+achieve(g2).
+
+%ach(g2) v ach(g3) :- ach(g1).
+%c5 :- ach(g2).
+%c6 :- ach(g3).
+%ach(g4) :- ach(g2).
+%ach(g5) :- ach(g2).
+%todo(t1) v todo(t2) :- ach(g4).
+%todo(t3) v todo(t4) :- ach(g5). 
+%ach(g1).
+%:~ c6.
+
+%arc(a,b).
+%arc(b,c).
+%arc(b,d).
+
+%path(X,Y) :- arc(X,Y).
+%path(X,Y) :- path(X,Z), arc(Z,Y).
+
+%node(X) :- arc(X,_).
+%node(Y) :- arc(_,Y).
+%complementaryArc(X,Y) :- node(X), node(Y), not arc(X,Y).
+
+%bad :- not good.
+
+%a v b.
+%:- not a.
+
+%a v b v c.
+%c :- b. 
+%  :~ a. [1:1]
+%  :~ b. [1:1]
+%  :~ c. [1:1]
+
+%emp(a).
+%emp(b).
+%emp(c).
+%emp(d).
+%emp(e).
+%know(a,b). know(b,c). know(c,d). know(d,e).
+%same_skill(a,b).
+%married(c,d).
+
+%member(X,p1) v member(X,p2) :- emp(X).
+%:~ member(X,P), member(Y,P), X != Y, not know(X,Y), not know(Y,X). [1:1]
+%:~ member(X,P), member(Y,P), X != Y, married(X,Y). [1:2]
+%:~ member(X,P), member(Y,P), X != Y, same_skill(X,Y). [1:2]

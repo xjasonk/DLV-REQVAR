@@ -1,0 +1,115 @@
+%translation for personal medication assistant-figure 6
+
+%contribution links
+contrib(t6,sg1,pos).
+
+contrib(t6,sg2,pos).
+contrib(g6,sg2,neg) :- cntxt(cg8).
+contrib(t10,sg2,pos).
+contrib(t12,sg2,neg).
+contrib(t13,sg2,pos).
+
+contrib(t16,sg3,pos).
+
+contrib(t2,sg4,pos).
+contrib(t4,sg4,neg).
+
+contrib(t14,sg5,pos).
+
+contrib(t13,sg6,neg).
+contrib(t12,sg6,pos).
+contrib(t14,sg6,neg).
+contrib(t15,sg6,pos).
+
+contrib(g6,sg7,pos).
+
+contrib(t13,sg8,neg).
+contrib(t14,sg8,neg).
+
+contrib(t4,sg9,pos) :- cntxt(cg9).
+contrib(t2,sg9,neg) :- cntxt(cg10).
+
+
+%AND/OR structure
+%achieveFrom(g1,g0) :- achieve(g0).
+%achieveFrom(g2,g0) :- achieve(g0).
+%achieveFrom(g3,g0) v -cntxt(medicineLevel=belowThreshold) :- achieve(g0).
+%medicineLevel(belowThreshold) :- achieveFrom(g3,g0). 
+%achieveFrom(g4,g0) :- achieve(g0).
+
+achieveFrom(g5,g1) :- achieve(g1).
+performFrom(t5,g1) v -cntxt(cg1):- achieve(g1).
+cntxt(cg1) :- performFrom(t5,g1). 
+
+performFrom(t1,g5) v performFrom(t2,g5) v performFrom(t3,g5) v performFrom(t4,g5):- achieve(g5).
+cntxt(cg3) :- performFrom(t2,g5).
+%-cntxt(cg3) :- performFrom(t2,g5). 
+cntxt(cg4) :- performFrom(t3,g5).
+cntxt(cg6) :- performFrom(t4,g5).
+
+%performFrom(t6,g2) v achieveFrom(g6,g2) v performFrom(t10,g2):- achieve(g2).
+%patientLocation(home) :- performFrom(t6,g2).
+
+%performFrom(t7,g6) :- achieve(g6).
+%achieveFrom(g7,g6) :- achieve(g6).
+
+%performFrom(t8,g7) :- achieve(g7).
+%performFrom(t9,g7) v -patientActivity(picksWrongMedicine) :- achieve(g7).
+%patientActivity(picksWrongMedicine) :-performFrom(t9,g7).
+
+%performFrom(t11,g3) :- achieve(g3).
+
+%achieveFrom(g8,g4) :- achieve(g4).
+%achieveFrom(g9,g4) :- achieve(g4).
+%performFrom(t16,g4) :- achieve(g4).
+
+%performFrom(t12,g8) v performFrom(t13,g8):- achieve(g8).
+
+%performFrom(t14,g9) v performFrom(t15,g9):- achieve(g9).
+
+%achieve(g0).
+
+achieve(G) :- achieveFrom(G,_).
+perform(T) :- performFrom(T,_).
+
+achieve(g1).
+
+
+%context instance
+%-patientActivity(leavingHome).
+%-patientActivity(picksWrongMedicine).
+%patientActivity(busy) :- patientActivity(sleeping).
+%patientActivity(sleeping).
+
+%bodyCondition(normal).
+
+%patientLocation(home) :- patientLocation(backyardLawn).
+%patientLocation(home).
+
+%-medicineLevel(belowThreshold).
+%medicineLevel(aboveThreshold).
+
+%distanceDispenser(far).
+
+%-noiseLevel(low).
+%noiseLevel(high).
+
+%eyeCondition(weak).
+
+%accompanyingPeople(alone).
+
+%patientIllness(all) :- patientIllness(normal).
+%patientIllness(all) :- patientIllness(mci).
+%patientIllness(all) :- patientIllness(dementia).
+%patientIllness(normal).
+
+%-distanceTV(near).
+%distanceTV(far).
+
+%weather(good).
+
+%-distancePhone(near).
+%distancePhone(far).
+
+
+

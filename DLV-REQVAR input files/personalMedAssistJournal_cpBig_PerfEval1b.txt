@@ -1,0 +1,89 @@
+%translation for personal medication assistant-Big Figure for contextual goals consistency analysis
+
+
+
+
+%AND/OR structure
+achieveFrom(g1,g0) :- achieve(g0).
+achieveFrom(g5,g0) :- achieve(g0).
+achieveFrom(g6,g0) :- achieve(g0).
+achieveFrom(g7,g0) v -cntxt(cg7) :- achieve(g0).
+cntxt(cg7) :- achieveFrom(g7,g0). 
+
+
+%cluster 1
+
+achieveFrom(g2,g1) :- achieve(g1).
+achieveFrom(g3,g1) v -cntxt(cg1):- achieve(g1).
+cntxt(cg1) :- achieveFrom(g3,g1). 
+
+performFrom(t1,g2) v performFrom(t2,g2) v achieveFrom(g4,g2) v performFrom(t3,g2):- achieve(g2).
+cntxt(cg3) :- performFrom(t2,g2).
+cntxt(cg4) :- achieveFrom(g4,g2).
+cntxt(cg6) :- performFrom(t3,g2).
+
+performFrom(t6,g4) v performFrom(t7,g4) v performFrom(t8,g4) v performFrom(t9,g4):- achieve(g4).
+cntxt(cg12) :- performFrom(t7,g4).
+cntxt(cg13) :- performFrom(t8,g4).
+cntxt(cg14) :- performFrom(t9,g4).
+
+performFrom(t4,g3) v performFrom(t5,g3) v performFrom(t28,g3):- achieve(g3).
+cntxt(cg15) :- performFrom(t4,g3).
+cntxt(cg16) :- performFrom(t5,g3).
+
+%cluster 2
+
+achieveFrom(g9,g5) v performFrom(t10,g5) v achieveFrom(g10,g5) :- achieve(g5).
+cntxt(cg2) :- achieveFrom(g10,g5).
+cntxt(cg26) :- performFrom(t10,g5).
+
+performFrom(t11,g9) :- achieve(g9).
+achieveFrom(g11,g9) :- achieve(g9).
+
+achieveFrom(g12,g11) :- achieve(g11).
+performFrom(t16,g11) v -cntxt(cg5) :- achieve(g11). 
+cntxt(cg5) :- performFrom(t16,g11).
+
+performFrom(t13,g12) v performFrom(t14,g12) v performFrom(t15,g12) :- achieve(g12).
+cntxt(cg21) :- performFrom(t13,g12).
+cntxt(cg17) :- performFrom(t14,g12).
+cntxt(cg18) :- performFrom(t15,g12).
+
+performFrom(t12,g10) :- achieve(g10).
+
+%cluster 3
+
+achieveFrom(g14,g6) :- achieve(g6).
+achieveFrom(g15,g6) :- achieve(g6).
+achieveFrom(g16,g6) :- achieve(g6).
+
+performFrom(t17,g14) v performFrom(t18,g14) :- achieve(g14).
+cntxt(cg23) :- performFrom(t17,g14).
+
+achieveFrom(g17,g15) v achieveFrom(g18,g15) :- achieve(g15).
+cntxt(cg24) :- achieveFrom(g18,g15).
+
+performFrom(t19,g17) :- achieve(g17).
+performFrom(t20,g17) v -cntxt(cg25) :- achieve(g17).
+cntxt(cg25) :- performFrom(t20,g17).
+
+performFrom(t21,g18) v performFrom(t22,g18) v performFrom(t23,g18) :- achieve(g18).
+
+performFrom(t24,g16) :- achieve(g16).
+performFrom(t25,g16) :- achieve(g16).
+
+%cluster 4
+
+performFrom(t26,g7) :- achieve(g7).
+
+
+achieve(G) :- achieveFrom(G,_).
+perform(T) :- performFrom(T,_).
+
+achieve(g0).
+
+
+
+
+
+

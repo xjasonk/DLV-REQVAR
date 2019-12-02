@@ -1,0 +1,400 @@
+%translation for personal medication assistant-Big Figure for contextual preferences
+
+%%%%%%%contribution links
+
+%cluster 1
+
+contrib(t2,sg4,pos).
+contrib(t3,sg4,neg).
+contrib(t4,sg4,pos).
+contrib(t5,sg4,neg).
+
+contrib(t2,sg9,neg) :- eyeCondition(weak).
+contrib(t3,sg9,pos) :- patientLocation(backyardLawn).
+contrib(t4,sg9,neg) :- eyeCondition(weak).
+contrib(t5,sg9,pos) :- patientLocation(backyardLawn).
+
+%cluster 2
+
+contrib(g9,sg2,neg) :- distanceDispenser(far).
+contrib(t10,sg2,pos).
+contrib(g10,sg2,pos).
+
+contrib(g9,sg7,pos).
+contrib(g10,sg7,neg).
+
+contrib(g9,sg8,pos).
+contrib(g10,sg8,neg).
+
+contrib(g9,sg1,neg).
+contrib(g10,sg1,pos). 
+
+%cluster 3
+
+contrib(t17,sg8,pos).
+contrib(t18,sg8,neg).
+
+contrib(g17,sg3,pos).
+
+contrib(g17,sg11,neg).
+contrib(g18,sg11,pos).
+
+contrib(g18,sg6,pos).
+contrib(g17,sg6,neg).
+
+contrib(g17,sg5,pos).
+
+contrib(t20,sg10,pos).
+
+
+%%%%%%Contextual Preferences
+
+%cluster 1
+
+priorityHard(t1,4) :- patientActivity(sleeping). 
+priorityHard(t2,4) :- eyeCondition(normal). 
+priorityHard(t2,4) :- hearingCondition(weak).
+priorityHard(t3,4) :- hearingCondition(normal). 
+priorityHard(t3,1) :- -patientIllness(normal). 
+
+priorityHard(t7,4) :- patientActivity(watchingTV). 
+
+priorityHard(t4,4) :- eyeCondition(normal). 
+priorityHard(t4,4) :- hearingCondition(weak).
+priorityHard(t5,4) :- hearingCondition(normal). 
+
+%cluster 2
+
+priorityHard(g10,4) :- patientIllness(dementia).
+priorityHard(g10,2) :- bodyCondition(tired).
+priorityHard(g10,2) :- bodyCondition(sick).
+
+priorityHard(g10, 4) :- accompanyingPeople(alone), patientActivity(sleeping), bodyCondition(tired).
+priorityHard(g10, 4) :- accompanyingPeople(alone), patientActivity(sleeping), bodyCondition(sick).
+ 
+priorityHard(g10, 2) :- accompanyingPeople(alone), patientActivity(busy).
+
+priorityHard(g9, 4) :- distanceDispenser(near).
+
+priorityHard(t10, 3) :- accompanyingPeople(caregiver).
+priorityHard(t10, 3) :- accompanyingPeople(relative).
+
+priorityHard(t13, 4) :- patientLocation(outdoors).
+
+%cluster 3
+
+priorityHard(t18, 4) :- patientIllness(dementia).
+
+priorityHard(g17, 4) :- patientIllness(dementia).
+
+priorityHard(t18, 3) :- bodyCondition(sick).
+priorityHard(t18, 3) :- bodyCondition(tired).
+
+priorityHard(g17, 3) :- bodyCondition(sick).
+priorityHard(g17, 3) :- bodyCondition(tired).
+
+priorityHard(t23, 2) :- weather(good).
+
+priorityHard(t21, 2) :- -eyeCondition(weak).
+
+priorityHard(t22, 2) :- -hearingCondition(weak).
+
+%%softgoal preferences
+
+%p8  
+prioritySoft(sg2,4) :- bodyCondition(sick).
+prioritySoft(sg2,3) :- bodyCondition(tired).
+
+%p9
+prioritySoft(sg6,4) :- patientIllness(normal), bodyCondition(normal).
+
+%p10
+prioritySoft(sg7,4) :- patientIllness(normal).
+
+%%default softgoal preferences
+
+%p11
+prioritySoft(sg1,3) :- patientIllness(all).
+
+%prioritySoft(sg1,1) :- patientIllness(all). this was used for a goal model with no preferences
+
+
+%p12
+prioritySoft(sg6,2) :- patientIllness(all).
+prioritySoft(sg7,2) :- patientIllness(all).
+prioritySoft(sg8,2) :- patientIllness(all).
+
+%the ff were used for a goal model with no preferences
+%prioritySoft(sg6,1) :- patientIllness(all).
+%prioritySoft(sg7,1) :- patientIllness(all).
+%prioritySoft(sg8,1) :- patientIllness(all).
+
+%p13
+prioritySoft(sg2,1) :- patientIllness(all).
+prioritySoft(sg3,1) :- patientIllness(all).
+prioritySoft(sg4,1) :- patientIllness(all).
+prioritySoft(sg5,1) :- patientIllness(all).
+
+%p14
+prioritySoft(sg9,1) :- patientIllness(all).
+prioritySoft(sg10,1) :- patientIllness(all).
+prioritySoft(sg11,1) :- patientIllness(all).
+
+%%%%%%%AND/OR structure
+
+achieveFrom(g1,g0) :- achieve(g0).
+achieveFrom(g5,g0) :- achieve(g0).
+achieveFrom(g6,g0) :- achieve(g0).
+achieveFrom(g7,g0) v -medicineLevel(belowThreshold) :- achieve(g0).
+medicineLevel(belowThreshold) :- achieveFrom(g7,g0). 
+
+
+%cluster 1
+
+achieveFrom(g2,g1) :- achieve(g1).
+achieveFrom(g3,g1) v -patientActivity(leavingHome):- achieve(g1).
+patientActivity(leavingHome) :- achieveFrom(g3,g1). 
+
+performFrom(t1,g2) v performFrom(t2,g2) v achieveFrom(g4,g2) v performFrom(t3,g2):- achieve(g2).
+distanceTV(near) :- performFrom(t2,g2).
+-patientActivity(sleeping) :- performFrom(t2,g2).
+distancePhone(near) :- achieveFrom(g4,g2).
+noiseLevel(low) :- performFrom(t3,g2).
+
+performFrom(t6,g4) v performFrom(t7,g4) v performFrom(t8,g4) v performFrom(t9,g4):- achieve(g4).
+noiseLevel(low) :- performFrom(t7,g4).
+hearingCondition(normal) :- performFrom(t7,g4).
+noiseLevel(low) :- performFrom(t8,g4).
+hearingCondition(normal) :- performFrom(t8,g4).
+eyeCondition(normal) :- performFrom(t9,g4).
+
+performFrom(t4,g3) v performFrom(t5,g3) v performFrom(t28,g3) :- achieve(g3).
+distanceTV(near) :- performFrom(t4,g3).
+-patientActivity(sleeping) :- performFrom(t4,g3).
+noiseLevel(low) :- performFrom(t5,g3).
+
+%cluster 2
+
+achieveFrom(g9,g5) v performFrom(t10,g5) v achieveFrom(g10,g5) :- achieve(g5).
+patientLocation(home) :- achieveFrom(g10,g5).
+-accompanyingPeople(alone) :- performFrom(t10,g5).
+
+performFrom(t11,g9) :- achieve(g9).
+achieveFrom(g11,g9) :- achieve(g9).
+
+achieveFrom(g12,g11) :- achieve(g11).
+performFrom(t16,g11) v -patientActivity(picksWrongMedicine) :- achieve(g11). 
+patientActivity(picksWrongMedicine) :- performFrom(t16,g11).
+
+performFrom(t13,g12) v performFrom(t14,g12) v performFrom(t15,g12) v performFrom(t27,g12):- achieve(g12).
+distancePhone(near) :- performFrom(t13,g12).
+distanceTV(near) :- performFrom(t14,g12).
+distanceDispenser(near) :- performFrom(t15,g12).
+
+performFrom(t12,g10) :- achieve(g10).
+
+
+%cluster 3
+
+achieveFrom(g14,g6) :- achieve(g6).
+achieveFrom(g15,g6) :- achieve(g6).
+achieveFrom(g16,g6) :- achieve(g6).
+
+performFrom(t17,g14) v performFrom(t18,g14) :- achieve(g14).
+patientIllness(normal) :- performFrom(t17,g14).
+
+achieveFrom(g17,g15) v achieveFrom(g18,g15) :- achieve(g15).
+patientIllness(normal) :- achieveFrom(g18,g15).
+
+performFrom(t19,g17) :- achieve(g17).
+performFrom(t20,g17) v -patientIllness(normal) :- achieve(g17).
+patientIllness(normal) :- performFrom(t20,g17).
+
+performFrom(t21,g18) v performFrom(t22,g18) v performFrom(t23,g18) :- achieve(g18).
+
+performFrom(t24,g16) :- achieve(g16).
+performFrom(t25,g16) :- achieve(g16).
+
+%cluster 4
+
+performFrom(t26,g7) :- achieve(g7).
+
+
+
+achieve(G) :- achieveFrom(G,_).
+perform(T) :- performFrom(T,_).
+
+achieve(g0).
+
+
+%%%%%%context instance
+%%patient activity
+
+-patientActivity(sleeping).
+-patientActivity(leavingHome).
+-patientActivity(watchingTV).
+-patientActivity(eatingMeal).
+-patientActivity(talkingOnPhone).
+patientActivity(picksWrongMedicine).
+-patientActivity(picksRightMedicine).
+%patientActivity(takingMedicine).
+%patientActivity(busy).
+-patientActivity(idle).
+
+patientActivity(all) :- patientActivity(busy).
+patientActivity(all) :- patientActivity(idle).
+
+patientActivity(busy) :- patientActivity(sleeping).
+patientActivity(busy) :- patientActivity(leavingHome).
+patientActivity(busy) :- patientActivity(watchingTV).
+patientActivity(busy) :- patientActivity(eatingMeal).
+patientActivity(busy) :- patientActivity(talkingOnPhone).
+patientActivity(busy) :- patientActivity(takingMedicine).
+
+patientActivity(takingMedicine) :- patientActivity(picksWrongMedicine).
+patientActivity(takingMedicine) :- patientActivity(picksRightMedicine).
+
+%%body condition
+
+bodyCondition(normal).
+-bodyCondition(weak).
+-bodyCondition(sick).
+-bodyCondition(tired).
+
+bodyCondition(all) :- bodyCondition(normal).
+bodyCondition(all) :- bodyCondition(weak).
+
+bodyCondition(weak) :- bodyCondition(sick).
+bodyCondition(weak) :- bodyCondition(tired).
+
+%%patient location
+
+-patientLocation(outdoors).
+%patientLocation(home).
+-patientLocation(kitchen).
+-patientLocation(backyardLawn).
+-patientLocation(toilet).
+patientLocation(livingRoom).
+
+patientLocation(home) :- patientLocation(kitchen).
+patientLocation(home) :- patientLocation(backyardLawn).
+patientLocation(home) :- patientLocation(toilet).
+patientLocation(home) :- patientLocation(livingRoom).
+
+patientLocation(all) :- patientLocation(outdoors).
+patientLocation(all) :- patientLocation(home).
+
+%%medicine level
+
+medicineLevel(aboveThreshold).
+-medicineLevel(belowThreshold).
+
+medicineLevel(all) :- medicineLevel(aboveThreshold).
+medicineLevel(all) :- medicineLevel(belowThreshold).
+
+%%distance dispenser
+
+-distanceDispenser(near).
+distanceDispenser(far).
+
+distanceDispenser(all) :- distanceDispenser(near).
+distanceDispenser(all) :- distanceDispenser(far).
+
+%%noise level
+
+-noiseLevel(low).
+noiseLevel(high).
+
+noiseLevel(all) :- noiseLevel(low).
+noiseLevel(all) :- noiseLevel(high).
+
+%%eye condition
+
+eyeCondition(weak).
+-eyeCondition(normal).
+
+eyeCondition(all) :- eyeCondition(weak).
+eyeCondition(all) :- eyeCondition(normal).
+
+%%accompanying people
+
+accompanyingPeople(relative).
+-accompanyingPeople(caregiver).
+-accompanyingPeople(friend).
+-accompanyingPeople(alone).
+
+accompanyingPeople(all) :- accompanyingPeople(relative).
+accompanyingPeople(all) :- accompanyingPeople(caregiver).
+accompanyingPeople(all) :- accompanyingPeople(friend).
+accompanyingPeople(all) :- accompanyingPeople(alone).
+
+%%patient illness
+
+-patientIllness(dementia).
+-patientIllness(mci).
+patientIllness(normal).
+
+patientIllness(all) :- patientIllness(normal).
+patientIllness(all) :- patientIllness(mci).
+patientIllness(all) :- patientIllness(dementia).
+
+%%distance TV
+
+-distanceTV(near).
+distanceTV(far).
+
+distanceTV(all) :- distanceTV(near).
+distanceTV(all) :- distanceTV(far).
+
+%%weather
+
+%weather(good).
+-weather(bad).
+weather(mild).
+-weather(warm).
+-weather(hot).
+-weather(cold).
+-weather(freezing).
+
+weather(all) :- weather(good).
+weather(all) :- weather(bad).
+
+weather(good) :- weather(mild).
+weather(good) :- weather(warm).
+weather(good) :- weather(hot).
+weather(bad) :- weather(cold).
+weather(bad) :- weather(freezing).
+
+%%distance phone
+
+-distancePhone(near).
+distancePhone(far).
+
+distancePhone(all) :- distancePhone(near).
+distancePhone(all) :- distancePhone(far).
+
+%%hearing condition
+
+hearingCondition(weak).
+-hearingCondition(normal).
+
+hearingCondition(all) :- hearingCondition(weak).
+hearingCondition(all) :- hearingCondition(normal).
+
+%%%%%%Auxilliary rules
+
+hardPriority(T,Priority):- priorityHard(T, Priority), #int(Priority), Priority!=0, perform(T). 
+hardPriority(G,Priority):- priorityHard(G, Priority), #int(Priority), Priority!=0, achieve(G). 
+
+posContribTo(T,S,Priority) :- prioritySoft(S,Priority), Priority!=0, contrib(T,S,pos), perform(T).
+posContribTo(G,S,Priority) :- prioritySoft(S,Priority), Priority!=0, contrib(G,S,pos), achieve(G).
+
+negContribTo(T,S,Priority) :- prioritySoft(S,Priority), Priority!=0, contrib(T,S,neg), perform(T).
+negContribTo(G,S,Priority) :- prioritySoft(S,Priority), Priority!=0, contrib(G,S,neg), achieve(G).
+
+softPriority(S,Priority):- prioritySoft(S,Priority), Priority!=0, contrib(T,S,pos), perform(T).
+softPriority(S,Priority):- prioritySoft(S,Priority), Priority!=0, contrib(G,S,pos), achieve(G).
+
+softPriority(S,Priority):- prioritySoft(S,Priority), Priority!=0, contrib(T,S,neg), perform(T).
+softPriority(S,Priority):- prioritySoft(S,Priority), Priority!=0, contrib(G,S,neg), achieve(G).
+

@@ -1,0 +1,40 @@
+%AND
+%performFrom(g1,g0) :- achieve(g0).
+%performFrom(g2,g0) :- achieve(g0).
+%performFrom(g3,g0) v -medicineLevel(belowThreshold) v -patientLocation(home):- achieve(g0).
+%medicineLevel(belowThreshold) :- performFrom(g3,g0). 
+%patientLocation(home) :- performFrom(g3,g0).
+%performFrom(g4,g0) v -patientLocation(kitchen):- achieve(g0).
+%performFrom(g4,g0) v -patientLocation(bedroom):- achieve(g0).
+%patientLocation(kitchen) v patientLocation(bedroom) :- performFrom(g4,g0).
+
+
+%OR
+%performFrom(g1,g0) v performFrom(g2,g0) v performFrom(t1,g0):- achieve(g0).
+%medicineLevel(belowThreshold) :- performFrom(g2,g0). 
+%patientLocation(home) :- performFrom(g2,g0).
+
+contrib(1) :- context(1).
+contrib(1) :- context(2).
+
+context(1).
+context(2).
+
+
+%achieve(g0).
+
+%achieve(G) :- achieveFrom(G,_).
+%perform(T) :- performFrom(T,_).
+
+
+%medicineLevel(belowThreshold).
+
+%-medicineLevel(belowThreshold).
+%medicineLevel(aboveThreshold).
+
+%patientLocation(home).
+
+%-patientLocation(kitchen).
+%-patientLocation(bedroom).
+
+%-patientLocation(outdoors).

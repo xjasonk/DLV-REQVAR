@@ -1,0 +1,239 @@
+%translation for visitor assistance system-Big Figure for contextual preferences
+
+%%%%%%%contribution links
+
+%cluster 1
+
+%contrib(t4,sg3,pos).
+
+%cluster 2
+
+
+%cluster 3
+%none
+
+%cluster 4
+
+contrib(t12,sg1,neg).
+contrib(t13,sg1,pos).
+contrib(t14,sg1,neg).
+
+%cluster 5
+
+contrib(g17,sg3,pos) :- cntxt(c14).
+contrib(g18,sg3,pos).
+
+contrib(g17,sg2,pos).
+contrib(g18,sg2,neg).
+
+%cluster 6
+%none
+
+%cluster 7
+contrib(t36,sg1,neg).
+contrib(t37,sg1,pos).
+
+contrib(t36,sg4,pos).
+contrib(t37,sg4,neg).
+
+contrib(t37,sg3,pos).
+contrib(t38,sg3,neg).
+contrib(t39,sg3,pos).
+
+
+%%%%%%Contextual Preferences
+
+%cluster 1
+
+%priorityHard(t1,4) :- patientActivity(sleeping). 
+
+%cluster 2
+
+
+%cluster 3
+
+
+
+%default softgoal preferences
+
+%p11
+%prioritySoft(sg1,3) :- patientIllness(all).
+
+
+%%%%%%%AND/OR structure
+
+
+%cluster 1
+
+achieveFrom(g1,g0) :- achieve(g0).
+achieveFrom(g4,g0) v -cntxt(c1):- achieve(g0).
+cntxt(c1) :- achieveFrom(g4,g0).
+achieveFrom(g19,g0) :- achieve(g0).
+cntxt(c19) :- achieveFrom(g19,g0).
+achieveFrom(g29,g0) :- achieve(g0).
+
+
+achieveFrom(g2,g1):- achieve(g1).
+performFrom(t1,g1):- achieve(g1).
+cntxt(c3) :- performFrom(t1,g1).
+
+performFrom(t2,g2) v performFrom(t3,g2):- achieve(g2).
+cntxt(c7) :- performFrom(t2,g2).
+cntxt(c8) :- performFrom(t3,g2).
+
+%cluster 2
+
+achieveFrom(g5,g4) v achieveFrom(g9,g4) v achieveFrom(g10,g4):- achieve(g4).
+cntxt(c4) :- achieveFrom(g5,g4).
+cntxt(c5) :- achieveFrom(g9,g4).
+cntxt(c6) :- achieveFrom(g10,g4).
+
+achieveFrom(g6,g5) :- achieve(g5).
+achieveFrom(g7,g5) :- achieve(g5).
+achieveFrom(g8,g5) :- achieve(g5).
+
+performFrom(t4,g6) v performFrom(t5,g6) :- achieve(g6).
+
+performFrom(t6,g7) :- achieve(g7).
+
+performFrom(t7,g8) :- achieve(g8).
+
+%cluster 3
+
+achieveFrom(g11,g9) :- achieve(g9).
+achieveFrom(g12,g9) :- achieve(g9).
+
+performFrom(t8,g11) v performFrom(t9,g11) :- achieve(g11).
+
+performFrom(t10,g12) v performFrom(t11,g12) :- achieve(g12).
+
+%cluster 4
+
+achieveFrom(g13,g10) :- achieve(g10).
+achieveFrom(g16,g10) :- achieve(g10).
+
+achieveFrom(g14,g13) v achieveFrom(g15,g13) :- achieve(g13).
+cntxt(c11) :- achieveFrom(g15,g13).
+
+performFrom(t12,g14) v performFrom(t13,g14) :- achieve(g14).
+cntxt(c12) :- performFrom(t12,g14).
+cntxt(c13) :- performFrom(t13,g14).
+
+performFrom(t14,g15) :- achieve(g15).
+
+%cluster 5
+
+achieveFrom(g17,g16) v achieveFrom(g18,g16) :- achieve(g16).
+cntxt(c15) :- achieveFrom(g18,g16).
+
+performFrom(t15,g17) :- achieve(g17).
+performFrom(t16,g17) :- achieve(g17).
+
+performFrom(t17,g18) v performFrom(t18,g18):- achieve(g18).
+ 
+
+%cluster 6
+
+achieveFrom(g20,g19) :- achieve(g19).
+achieveFrom(g21,g19) :- achieve(g19).
+achieveFrom(g22,g19) :- achieve(g19).
+
+performFrom(t23,g20) v performFrom(t24,g20):- achieve(g20).
+
+achieveFrom(g23,g21) v achieveFrom(g24,g21):- achieve(g21).
+
+performFrom(t25,g23) :- achieve(g23).
+
+achieveFrom(g25,g24) v performFrom(t29,g24):- achieve(g24).
+cntxt(c20) :- achieveFrom(g25,g24).
+cntxt(c21) :- performFrom(t29,g24).
+
+performFrom(t26,g25):- achieve(g25).
+achieveFrom(g26,g25):- achieve(g25).
+
+performFrom(t27,g26) v performFrom(t28,g26):- achieve(g26).
+
+performFrom(t30,g22) v achieveFrom(g28,g22):- achieve(g22).
+cntxt(c22) :- performFrom(t30,g22).
+cntxt(c23) :- achieveFrom(g28,g22).
+
+performFrom(t34,g28) v performFrom(t35,g28) :- achieve(g28).
+
+%cluster 7
+
+achieveFrom(g30,g29) v -cntxt(c25):- achieve(g29).
+cntxt(c25) :- achieveFrom(g30,g29).
+achieveFrom(g31,g29) v -cntxt(c26):- achieve(g29).
+cntxt(c26) :- achieveFrom(g31,g29).
+achieveFrom(t40,g29) :- achieve(g29).
+
+performFrom(t36,g30) v performFrom(t37,g30) :- achieve(g30).
+
+performFrom(t38,g31) v performFrom(t39,g31) :- achieve(g31).
+
+%%
+
+achieve(G) :- achieveFrom(G,_).
+perform(T) :- performFrom(T,_).
+
+achieve(g0).
+
+
+%%%%%%context instance
+
+%-patientActivity(leavingHome).
+%-patientActivity(picksWrongMedicine).
+%patientActivity(busy) :- patientActivity(sleeping).
+%-patientActivity(sleeping).
+
+%bodyCondition(normal).
+
+%patientLocation(home) :- patientLocation(backyardLawn).
+%patientLocation(home).
+
+%-medicineLevel(belowThreshold).
+%medicineLevel(aboveThreshold).
+
+%distanceDispenser(near).
+%-distanceDispenser(far).
+
+%-noiseLevel(low).
+%noiseLevel(high).
+
+%eyeCondition(weak).
+
+%accompanyingPeople(alone).
+
+%patientIllness(all) :- patientIllness(normal).
+%patientIllness(all) :- patientIllness(mci).
+%patientIllness(all) :- patientIllness(dementia).
+%patientIllness(dementia).
+
+%-distanceTV(near).
+%distanceTV(far).
+
+%weather(good).
+
+%-distancePhone(near).
+%distancePhone(far).
+
+%-hearingCondition(normal).
+%hearingCondition(weak).
+
+%%%%%%Auxilliary rules
+
+hardPriority(T,Priority):- priorityHard(T, Priority), #int(Priority), Priority!=0, perform(T). 
+hardPriority(G,Priority):- priorityHard(G, Priority), #int(Priority), Priority!=0, achieve(G). 
+
+posContribTo(T,S,Priority) :- prioritySoft(S,Priority), Priority!=0, contrib(T,S,pos), perform(T).
+posContribTo(G,S,Priority) :- prioritySoft(S,Priority), Priority!=0, contrib(G,S,pos), achieve(G).
+
+negContribTo(T,S,Priority) :- prioritySoft(S,Priority), Priority!=0, contrib(T,S,neg), perform(T).
+negContribTo(G,S,Priority) :- prioritySoft(S,Priority), Priority!=0, contrib(G,S,neg), achieve(G).
+
+softPriority(S,Priority):- prioritySoft(S,Priority), Priority!=0, contrib(T,S,pos), perform(T).
+softPriority(S,Priority):- prioritySoft(S,Priority), Priority!=0, contrib(G,S,pos), achieve(G).
+
+softPriority(S,Priority):- prioritySoft(S,Priority), Priority!=0, contrib(T,S,neg), perform(T).
+softPriority(S,Priority):- prioritySoft(S,Priority), Priority!=0, contrib(G,S,neg), achieve(G).
+

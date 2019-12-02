@@ -1,0 +1,92 @@
+%dlv.mingw -silent -nofacts -N=10000 -filter=perform input.txt
+achieve(g1) :- achieve(g0).
+achieve(g2) :- achieve(g0). 
+perform(t5) :- achieve(g0).
+perform(t1) v perform(t2) :- achieve(g1).
+perform(t3) v perform(t4) :- achieve(g2).  
+softgoal(sg1,1).
+softgoal(sg2,3).
+softgoal(sg3,6).
+softgoal(sg4,5).
+contrib(1,t1,sg3,neg).
+contrib(2,t1,sg4,pos).
+contrib(3,t2,sg3,pos).
+contrib(4,t2,sg4,neg).
+contrib(5,t3,sg3,pos).
+contrib(6,t3,sg4,neg).
+contrib(7,t3,sg2,pos).
+contrib(8,t4,sg4,pos).
+contrib(9,t4,sg3,neg).
+contrib(10,t4,sg2,neg).
+contrib(11,t5,sg1,pos).
+
+%posContribTo(T,S,V) :- softgoal(S,Priority), Priority!=0, #count{I: contrib(I,T,S,pos)}=V1, V1!=0, perform(T), #int(V), V=V1*Priority. 
+
+
+
+%posNegContrib(PosTotal,NegTotal,T) :- #sum{P1 : softgoal(SG,P1), contrib(T,SG,pos)} = PosTotal, #sum{P2 : softgoal(SG,P2), contrib(T,SG,neg)} = NegTotal, perform(T). 
+
+%maxContrib(X) :- #sum{P : softgoal(SG,P), posNegContrib(_,_,T)} = X.
+
+%maxContrib(X) :- #sum{S : posNegContrib(S,Q,T)} = X, perform(T), posNegContrib(P,Q,T).
+
+%maxContrib(X) :- #sum{P : softgoal(SG,P), contrib(T,SG,pos)} = X, posNegContrib(PosTotal,NegTotal,T).
+
+%, totContrib(X,T), #max{Max : totContrib(Max,T)}=M.   
+
+
+%phi(c14).
+%softgoal(sg1,3).
+%softgoal(sg2,1).
+%contrib(g10,sg1,pos).
+%contrib(g10,sg2,pos) :- phi(c14).
+%contrib(g11,sg1,neg).
+%contrib(g11,sg2,pos).
+
+achieve(g0).
+
+%ach(g2) v ach(g3) :- ach(g1).
+%c5 :- ach(g2).
+%c6 :- ach(g3).
+%ach(g4) :- ach(g2).
+%ach(g5) :- ach(g2).
+%todo(t1) v todo(t2) :- ach(g4).
+%todo(t3) v todo(t4) :- ach(g5). 
+%ach(g1).
+%:~ c6.
+
+%arc(a,b).
+%arc(b,c).
+%arc(b,d).
+
+%path(X,Y) :- arc(X,Y).
+%path(X,Y) :- path(X,Z), arc(Z,Y).
+
+%node(X) :- arc(X,_).
+%node(Y) :- arc(_,Y).
+%complementaryArc(X,Y) :- node(X), node(Y), not arc(X,Y).
+
+%bad :- not good.
+
+%a v b.
+%:- not a.
+
+%a v b v c.
+%c :- b. 
+%  :~ a. [1:1]
+%  :~ b. [1:1]
+%  :~ c. [1:1]
+
+%emp(a).
+%emp(b).
+%emp(c).
+%emp(d).
+%emp(e).
+%know(a,b). know(b,c). know(c,d). know(d,e).
+%same_skill(a,b).
+%married(c,d).
+
+%member(X,p1) v member(X,p2) :- emp(X).
+%:~ member(X,P), member(Y,P), X != Y, not know(X,Y), not know(Y,X). [1:1]
+%:~ member(X,P), member(Y,P), X != Y, married(X,Y). [1:2]
+%:~ member(X,P), member(Y,P), X != Y, same_skill(X,Y). [1:2]

@@ -1,0 +1,167 @@
+%translation for patient caregiving system-Big Figure for contextual preferences
+
+%%%%%%%contribution links
+
+%cluster 1
+
+contrib(t4,sg3,pos).
+contrib(t5,sg3,neg).
+
+%cluster 2
+
+contrib(t8,sg2,pos).
+contrib(t9,sg2,neg) :- cntxt(c5).
+
+contrib(t8,sg1,pos) :- cntxt(c6).
+contrib(t9,sg1,pos).
+
+%cluster 3
+%none
+
+%%%%%%Contextual Preferences
+
+%cluster 1
+
+%priorityHard(t1,4) :- patientActivity(sleeping). 
+
+%cluster 2
+
+
+%cluster 3
+
+
+
+%default softgoal preferences
+
+%p11
+%prioritySoft(sg1,3) :- patientIllness(all).
+
+
+%%%%%%%AND/OR structure
+
+achieveFrom(g1,g0) v -cntxt(c1) :- achieve(g0).
+cntxt(c1) :- achieveFrom(g1,g0).
+
+achieveFrom(g2,g0) v -cntxt(c2) :- achieve(g0).
+cntxt(c2) :- achieveFrom(g2,g0).
+
+achieveFrom(g3,g0) :- achieve(g0).
+
+%cluster 1
+
+achieveFrom(g4,g1) v achieveFrom(g5,g1) :- achieve(g1).
+cntxt(c3) :- achieveFrom(g4,g1).
+cntxt(c4) :- achieveFrom(g5,g1).
+
+performFrom(t1,g4) v performFrom(t2,g4) :- achieve(g4).
+
+achieveFrom(g8,g5) :- achieve(g5).
+achieveFrom(g9,g5) :- achieve(g5).
+achieveFrom(g10,g5) :- achieve(g5).
+
+performFrom(t3,g8) :- achieve(g8).
+
+performFrom(t4,g9) v performFrom(t5,g9) :- achieve(g9).
+cntxt(c9) :- performFrom(t4,g9).
+cntxt(c10) :- performFrom(t5,g9).
+
+performFrom(t6,g10) v performFrom(t7,g10) :- achieve(g10).
+cntxt(c11) :- performFrom(t6,g10).
+
+
+%cluster 2
+
+performFrom(t8,g2) v performFrom(t9,g2) :- achieve(g2).
+cntxt(c5) :- performFrom(t8,g2).
+
+%cluster 3
+
+achieveFrom(g6,g3) v -cntxt(c7) :- achieve(g3).
+cntxt(c7) :- achieveFrom(g6,g3).
+achieveFrom(g7,g3) v -cntxt(c8) :- achieve(g3).
+cntxt(c8) :- achieveFrom(g7,g3).
+performFrom(t16,g3):- achieve(g3).
+
+performFrom(t10,g6):- achieve(g6).
+
+achieveFrom(g11,g7):- achieve(g7).
+achieveFrom(g12,g7):- achieve(g7).
+
+performFrom(t14,g11):- achieve(g11).
+
+achieveFrom(g13,g12) v performFrom(t15,g12):- achieve(g12).
+cntxt(c13) :- performFrom(t15,g12).
+
+performFrom(t11,g13):- achieve(g13).
+performFrom(t12,g13) v -cntxt(c12):- achieve(g13).
+cntxt(c12) :- performFrom(t12,g13).
+performFrom(t13,g13):- achieve(g13).
+
+
+%cluster 4
+%none
+
+achieve(G) :- achieveFrom(G,_).
+perform(T) :- performFrom(T,_).
+
+achieve(g0).
+
+
+%%%%%%context instance
+
+%-patientActivity(leavingHome).
+%-patientActivity(picksWrongMedicine).
+%patientActivity(busy) :- patientActivity(sleeping).
+%-patientActivity(sleeping).
+
+%bodyCondition(normal).
+
+%patientLocation(home) :- patientLocation(backyardLawn).
+%patientLocation(home).
+
+%-medicineLevel(belowThreshold).
+%medicineLevel(aboveThreshold).
+
+%distanceDispenser(near).
+%-distanceDispenser(far).
+
+%-noiseLevel(low).
+%noiseLevel(high).
+
+%eyeCondition(weak).
+
+%accompanyingPeople(alone).
+
+%patientIllness(all) :- patientIllness(normal).
+%patientIllness(all) :- patientIllness(mci).
+%patientIllness(all) :- patientIllness(dementia).
+%patientIllness(dementia).
+
+%-distanceTV(near).
+%distanceTV(far).
+
+%weather(good).
+
+%-distancePhone(near).
+%distancePhone(far).
+
+%-hearingCondition(normal).
+%hearingCondition(weak).
+
+%%%%%%Auxilliary rules
+
+hardPriority(T,Priority):- priorityHard(T, Priority), #int(Priority), Priority!=0, perform(T). 
+hardPriority(G,Priority):- priorityHard(G, Priority), #int(Priority), Priority!=0, achieve(G). 
+
+posContribTo(T,S,Priority) :- prioritySoft(S,Priority), Priority!=0, contrib(T,S,pos), perform(T).
+posContribTo(G,S,Priority) :- prioritySoft(S,Priority), Priority!=0, contrib(G,S,pos), achieve(G).
+
+negContribTo(T,S,Priority) :- prioritySoft(S,Priority), Priority!=0, contrib(T,S,neg), perform(T).
+negContribTo(G,S,Priority) :- prioritySoft(S,Priority), Priority!=0, contrib(G,S,neg), achieve(G).
+
+softPriority(S,Priority):- prioritySoft(S,Priority), Priority!=0, contrib(T,S,pos), perform(T).
+softPriority(S,Priority):- prioritySoft(S,Priority), Priority!=0, contrib(G,S,pos), achieve(G).
+
+softPriority(S,Priority):- prioritySoft(S,Priority), Priority!=0, contrib(T,S,neg), perform(T).
+softPriority(S,Priority):- prioritySoft(S,Priority), Priority!=0, contrib(G,S,neg), achieve(G).
+

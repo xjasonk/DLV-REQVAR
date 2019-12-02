@@ -1,0 +1,44 @@
+%cluster 1 and 4 of the personal medication assitant big model
+
+%AND/OR structure
+achieveFrom(g1,g0) :- achieve(g0).
+%achieveFrom(g5,g0) :- achieve(g0).
+%achieveFrom(g6,g0) :- achieve(g0).
+achieveFrom(g7,g0) :- achieve(g0).
+ 
+
+
+%cluster 1
+
+achieveFrom(g2,g1) :- achieve(g1).
+achieveFrom(g3,g1) v -cntxt(cg1):- achieve(g1).
+cntxt(cg1) :- achieveFrom(g3,g1). 
+
+performFrom(t1,g2) v performFrom(t2,g2) v achieveFrom(g4,g2) v performFrom(t3,g2):- achieve(g2).
+cntxt(cg3) :- performFrom(t2,g2).
+
+cntxt(cg6) :- performFrom(t3,g2).
+
+performFrom(t6,g4) v performFrom(t7,g4) v performFrom(t8,g4) v performFrom(t9,g4):- achieve(g4).
+cntxt(cg12) :- performFrom(t7,g4).
+
+cntxt(cg14) :- performFrom(t9,g4).
+
+performFrom(t4,g3) v performFrom(t5,g3):- achieve(g3).
+
+cntxt(cg16) :- performFrom(t5,g3).
+
+%cluster 2
+%
+%
+%cluster 3
+%
+%
+%cluster 4
+
+performFrom(t26,g7) :- achieve(g7).
+
+achieve(G) :- achieveFrom(G,_).
+perform(T) :- performFrom(T,_).
+
+achieve(g0).

@@ -1,0 +1,166 @@
+%patientActivity(busy) :- -patientActivity(idle). 
+%patientActivity(sleeping) :- -patientActivity(idle). 
+%patientActivity(leavingHome) :- -patientActivity(idle). 
+%patientActivity(watchingTV) :- -patientActivity(idle). 
+%patientActivity(eatingMeal) :- -patientActivity(idle). 
+%patientActivity(talkingOnPhone) :- -patientActivity(idle). 
+%patientActivity(takingMedicine) :- -patientActivity(idle). 
+%patientActivity(picksWrongMedicine) :- -patientActivity(idle). 
+%patientActivity(picksRightMedicine) :- -patientActivity(idle).
+
+%-patientActivity(busy) :- patientActivity(idle).
+%-patientActivity(sleeping) :- patientActivity(idle). 
+%-patientActivity(leavingHome) :- patientActivity(idle). 
+%-patientActivity(watchingTV) :- patientActivity(idle). 
+%-patientActivity(eatingMeal) :- patientActivity(idle). 
+%-patientActivity(talkingOnPhone) :- patientActivity(idle). 
+%-patientActivity(takingMedicine) :- patientActivity(idle). 
+%-patientActivity(picksWrongMedicine) :- patientActivity(idle). 
+%-patientActivity(picksRightMedicine) :- patientActivity(idle).
+
+%patientActivity(idle) :- -patientActivity(busy). 
+%-patientActivity(idle) :- patientActivity(busy). 
+
+patientActivity(idle) :- -patientActivity(sleeping). 
+patientActivity(leavingHome) :- -patientActivity(sleeping). 
+patientActivity(watchingTV) :- -patientActivity(sleeping). 
+patientActivity(eatingMeal) :- -patientActivity(sleeping). 
+patientActivity(talkingOnPhone) :- -patientActivity(sleeping). 
+patientActivity(takingMedicine) :- -patientActivity(sleeping). 
+patientActivity(picksWrongMedicine) :- -patientActivity(sleeping). 
+patientActivity(picksRightMedicine) :- -patientActivity(sleeping).
+
+-patientActivity(idle) :- patientActivity(sleeping).
+-patientActivity(leavingHome) :- patientActivity(sleeping). 
+-patientActivity(watchingTV) :- patientActivity(sleeping). 
+-patientActivity(eatingMeal) :- patientActivity(sleeping). 
+-patientActivity(talkingOnPhone) :- patientActivity(sleeping). 
+-patientActivity(takingMedicine) :- patientActivity(sleeping). 
+-patientActivity(picksWrongMedicine) :- patientActivity(sleeping). 
+-patientActivity(picksRightMedicine) :- patientActivity(sleeping).
+
+patientActivity(idle) :- -patientActivity(leavingHome). 
+patientActivity(sleeping) :- -patientActivity(leavingHome). 
+patientActivity(watchingTV) :- -patientActivity(leavingHome). 
+patientActivity(eatingMeal) :- -patientActivity(leavingHome). 
+patientActivity(talkingOnPhone) :- -patientActivity(leavingHome). 
+patientActivity(takingMedicine) :- -patientActivity(leavingHome). 
+patientActivity(picksWrongMedicine) :- -patientActivity(leavingHome). 
+patientActivity(picksRightMedicine) :- -patientActivity(leavingHome).
+
+-patientActivity(idle) :- patientActivity(leavingHome). 
+-patientActivity(sleeping) :- patientActivity(leavingHome). 
+-patientActivity(watchingTV) :- patientActivity(leavingHome). 
+-patientActivity(eatingMeal) :- patientActivity(leavingHome). 
+-patientActivity(talkingOnPhone) :- patientActivity(leavingHome). 
+-patientActivity(takingMedicine) :- patientActivity(leavingHome). 
+-patientActivity(picksWrongMedicine) :- patientActivity(leavingHome). 
+-patientActivity(picksRightMedicine) :- patientActivity(leavingHome).
+
+patientActivity(idle) :- -patientActivity(watchingTV). 
+patientActivity(sleeping) :- -patientActivity(watchingTV). 
+patientActivity(leavingHome) :- -patientActivity(watchingTV). 
+patientActivity(eatingMeal) :- -patientActivity(watchingTV). 
+patientActivity(talkingOnPhone) :- -patientActivity(watchingTV). 
+patientActivity(takingMedicine) :- -patientActivity(watchingTV). 
+patientActivity(picksWrongMedicine) :- -patientActivity(watchingTV). 
+patientActivity(picksRightMedicine) :- -patientActivity(watchingTV).
+
+-patientActivity(idle) :- patientActivity(watchingTV). 
+-patientActivity(sleeping) :- patientActivity(watchingTV). 
+-patientActivity(leavingHome) :- patientActivity(watchingTV). 
+-patientActivity(eatingMeal) :- patientActivity(watchingTV). 
+-patientActivity(talkingOnPhone) :- patientActivity(watchingTV). 
+-patientActivity(takingMedicine) :- patientActivity(watchingTV). 
+-patientActivity(picksWrongMedicine) :- patientActivity(watchingTV). 
+-patientActivity(picksRightMedicine) :- patientActivity(watchingTV).
+
+patientActivity(idle) :- -patientActivity(eatingMeal). 
+patientActivity(sleeping) :- -patientActivity(eatingMeal). 
+patientActivity(leavingHome) :- -patientActivity(eatingMeal). 
+patientActivity(watchingTV) :- -patientActivity(eatingMeal). 
+patientActivity(talkingOnPhone) :- -patientActivity(eatingMeal). 
+patientActivity(takingMedicine) :- -patientActivity(eatingMeal). 
+patientActivity(picksWrongMedicine) :- -patientActivity(eatingMeal). 
+patientActivity(picksRightMedicine) :- -patientActivity(eatingMeal).
+
+-patientActivity(idle) :- patientActivity(eatingMeal). 
+-patientActivity(sleeping) :- patientActivity(eatingMeal). 
+-patientActivity(leavingHome) :- patientActivity(eatingMeal). 
+-patientActivity(watchingTV) :- patientActivity(eatingMeal). 
+-patientActivity(talkingOnPhone) :- patientActivity(eatingMeal). 
+-patientActivity(takingMedicine) :- patientActivity(eatingMeal). 
+-patientActivity(picksWrongMedicine) :- patientActivity(eatingMeal). 
+-patientActivity(picksRightMedicine) :- patientActivity(eatingMeal).
+
+patientActivity(idle) :- -patientActivity(talkingOnPhone). 
+patientActivity(sleeping) :- -patientActivity(talkingOnPhone). 
+patientActivity(leavingHome) :- -patientActivity(talkingOnPhone). 
+patientActivity(watchingTV) :- -patientActivity(talkingOnPhone). 
+patientActivity(eatingMeal) :- -patientActivity(talkingOnPhone). 
+patientActivity(takingMedicine) :- -patientActivity(talkingOnPhone). 
+patientActivity(picksWrongMedicine) :- -patientActivity(talkingOnPhone). 
+patientActivity(picksRightMedicine) :- -patientActivity(talkingOnPhone).
+
+-patientActivity(idle) :- patientActivity(talkingOnPhone). 
+-patientActivity(sleeping) :- patientActivity(talkingOnPhone). 
+-patientActivity(leavingHome) :- patientActivity(talkingOnPhone). 
+-patientActivity(watchingTV) :- patientActivity(talkingOnPhone). 
+-patientActivity(eatingMeal) :- patientActivity(talkingOnPhone). 
+-patientActivity(takingMedicine) :- patientActivity(talkingOnPhone). 
+-patientActivity(picksWrongMedicine) :- patientActivity(talkingOnPhone). 
+-patientActivity(picksRightMedicine) :- patientActivity(talkingOnPhone).
+
+patientActivity(idle) :- -patientActivity(takingMedicine). 
+patientActivity(sleeping) :- -patientActivity(takingMedicine). 
+patientActivity(leavingHome) :- -patientActivity(takingMedicine). 
+patientActivity(watchingTV) :- -patientActivity(takingMedicine). 
+patientActivity(eatingMeal) :- -patientActivity(takingMedicine). 
+patientActivity(talkingOnPhone) :- -patientActivity(takingMedicine). 
+patientActivity(picksWrongMedicine) :- -patientActivity(takingMedicine). 
+patientActivity(picksRightMedicine) :- -patientActivity(takingMedicine).
+
+-patientActivity(idle) :- patientActivity(takingMedicine). 
+-patientActivity(sleeping) :- patientActivity(takingMedicine). 
+-patientActivity(leavingHome) :- patientActivity(takingMedicine). 
+-patientActivity(watchingTV) :- patientActivity(takingMedicine). 
+-patientActivity(eatingMeal) :- patientActivity(takingMedicine). 
+-patientActivity(talkingOnPhone) :- patientActivity(takingMedicine). 
+-patientActivity(picksWrongMedicine) :- patientActivity(takingMedicine). 
+-patientActivity(picksRightMedicine) :- patientActivity(takingMedicine).
+
+patientActivity(idle) :- -patientActivity(picksWrongMedicine). 
+patientActivity(sleeping) :- -patientActivity(picksWrongMedicine). 
+patientActivity(leavingHome) :- -patientActivity(picksWrongMedicine). 
+patientActivity(watchingTV) :- -patientActivity(picksWrongMedicine). 
+patientActivity(eatingMeal) :- -patientActivity(picksWrongMedicine). 
+patientActivity(talkingOnPhone) :- -patientActivity(picksWrongMedicine). 
+patientActivity(takingMedicine) :- -patientActivity(picksWrongMedicine). 
+patientActivity(picksRightMedicine) :- -patientActivity(picksWrongMedicine).
+
+-patientActivity(idle) :- patientActivity(picksWrongMedicine). 
+-patientActivity(sleeping) :- patientActivity(picksWrongMedicine). 
+-patientActivity(leavingHome) :- patientActivity(picksWrongMedicine). 
+-patientActivity(watchingTV) :- patientActivity(picksWrongMedicine). 
+-patientActivity(eatingMeal) :- patientActivity(picksWrongMedicine). 
+-patientActivity(talkingOnPhone) :- patientActivity(picksWrongMedicine). 
+-patientActivity(takingMedicine) :- patientActivity(picksWrongMedicine). 
+-patientActivity(picksRightMedicine) :- patientActivity(picksWrongMedicine).
+
+patientActivity(idle) :- -patientActivity(picksRightMedicine). 
+patientActivity(sleeping) :- -patientActivity(picksRightMedicine). 
+patientActivity(leavingHome) :- -patientActivity(picksRightMedicine). 
+patientActivity(watchingTV) :- -patientActivity(picksRightMedicine). 
+patientActivity(eatingMeal) :- -patientActivity(picksRightMedicine). 
+patientActivity(talkingOnPhone) :- -patientActivity(picksRightMedicine). 
+patientActivity(takingMedicine) :- -patientActivity(picksRightMedicine). 
+patientActivity(picksWrongMedicine) :- -patientActivity(picksRightMedicine).
+
+-patientActivity(idle) :- patientActivity(picksRightMedicine).
+-patientActivity(sleeping) :- patientActivity(picksRightMedicine).
+-patientActivity(leavingHome) :- patientActivity(picksRightMedicine).
+-patientActivity(watchingTV) :- patientActivity(picksRightMedicine).
+-patientActivity(eatingMeal) :- patientActivity(picksRightMedicine).
+-patientActivity(talkingOnPhone) :- patientActivity(picksRightMedicine).
+-patientActivity(takingMedicine) :- patientActivity(picksRightMedicine).
+-patientActivity(picksWrongMedicine) :- patientActivity(picksRightMedicine).
